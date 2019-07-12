@@ -1,0 +1,21 @@
+{
+  "name": "gatsby-theme-bjk-components",
+  "version": "0.1.0",
+  "description": "UI components for building Gatsby web apps",
+  "main": "index.js",
+  "author": "Bryan Kegley <hi@bryankegley.me>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "gatsby": "^2.13.19",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
+  "peerDependencies": {
+    "gatsby": "^2.13.19",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
