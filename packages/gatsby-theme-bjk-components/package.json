@@ -17,5 +17,13 @@
     "gatsby": "^2.13.19",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
+  },
+  "dependencies": {
+    "@emotion/core": "^10.0.14",
+    "@mdx-js/react": "^1.0.27",
+    "formik": "^2.0.1-rc.12",
+    "prop-types": "^15.7.2",
+    "react-feather": "^2.0.3",
+    "theme-ui": "^0.2.13"
   }
 }
