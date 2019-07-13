@@ -44,7 +44,7 @@ const getStylesFromVariantProp = variant => {
   }
 }
 
-const StyledDropdownInput = props => {
+const StyledDropdownInput = ({isOpen, ...props}) => {
   return (
     <input
       sx={Object.assign(
@@ -58,11 +58,11 @@ const StyledDropdownInput = props => {
           boxShadow: 'none',
           borderWidth: '1px',
           borderStyle: 'solid',
-          borderColor: props.isOpen ? 'primary' : 'gray',
+          borderColor: isOpen ? 'primary' : 'gray',
           transition: 'box-shadow 0.1s ease, width 0.1s ease',
-          borderBottom: props.isOpen ? 'none' : null,
-          borderBottomLeftRadius: props.isOpen ? 0 : null,
-          borderBottomRightRadius: props.isOpen ? 0 : null,
+          borderBottom: isOpen ? 'none' : null,
+          borderBottomLeftRadius: isOpen ? 0 : null,
+          borderBottomRightRadius: isOpen ? 0 : null,
 
           ':focus': {
             borderColor: 'primary',
@@ -75,9 +75,10 @@ const StyledDropdownInput = props => {
   )
 }
 
-const StyledMenu = ({children, ...props}) => {
+const StyledMenu = ({children, innerRef, isOpen, ...props}) => {
   return (
     <ul
+      ref={innerRef}
       sx={{
         padding: '0px',
         mt: '0px',
@@ -95,7 +96,7 @@ const StyledMenu = ({children, ...props}) => {
         borderBottomWidth: '1px',
         borderLeftWidth: '1px',
         borderStyle: 'solid',
-        border: props.isOpen ? null : 'none',
+        border: isOpen ? null : 'none',
         zIndex: 1,
       }}
       {...props}
@@ -192,6 +193,7 @@ const DropdownInner = ({
         getItemProps,
         getLabelProps,
         getMenuProps,
+        getRootProps,
         inputValue,
         isOpen,
         highlightedIndex,
@@ -201,7 +203,7 @@ const DropdownInner = ({
       }) => {
         const createNewOptions = onCreateNew ? [{text: '-- Create New --', value: '__createNew', clearSelection}] : []
         return (
-          <div>
+          <div {...getRootProps()}>
             <label {...getLabelProps()}>{label}</label>
             <Box sx={{position: 'relative'}} {...props}>
               <Box>
@@ -218,7 +220,7 @@ const DropdownInner = ({
                   </ControllerButton>
                 ) : null}
               </Box>
-              <StyledMenu {...getMenuProps({isOpen})}>
+              <StyledMenu {...getMenuProps({refKey: 'innerRef', isOpen})}>
                 {isOpen
                   ? createNewOptions
                       .concat(
