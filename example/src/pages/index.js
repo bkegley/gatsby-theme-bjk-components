@@ -6,7 +6,8 @@ import Button from '../components/Button'
 import useTimer from '../hooks/useTimer'
 import {animated, useTransition} from 'react-spring'
 import useLocalStorage from '../hooks/useLocalStorage'
-import {Dropdown} from 'gatsby-theme-bjk-components'
+import {Dropdown, Modal} from 'gatsby-theme-bjk-components'
+import CoffeeCreateForm from '../components/CoffeeCreateForm'
 
 const BrewButton = () => {
   const {toggleTimer, isRunning} = useTimer()
@@ -37,23 +38,35 @@ const SectionOne = ({style, setSection}) => {
 }
 
 const SectionTwo = ({style, setSection, setCoffee}) => {
-  const [coffees] = useLocalStorage('coffees', [])
+  const [coffees, setCoffees] = useLocalStorage('coffees', [])
+  const [showModal, setShowModal] = React.useState(false)
+  const toggleModal = () => setShowModal(old => !old)
   return (
-    <AnimatedBox style={style} sx={{position: 'absolute'}}>
-      <Box sx={{textAlign: 'center'}}>
-        <Box sx={{fontSize: 6}}>pick a coffee</Box>
-        <Box sx={{my: 4}}>
-          <Dropdown
-            onChange={selection => console.log({selection})}
-            name="coffee"
-            options={coffees.map(coffee => ({text: coffee.name, value: coffee.id}))}
-          />
+    <>
+      {showModal ? (
+        <Modal onClickOutside={toggleModal}>
+          <Box sx={{p: 4}}>
+            <CoffeeCreateForm coffees={coffees} setCoffees={setCoffees} onClickOutside={toggleModal} />
+          </Box>
+        </Modal>
+      ) : null}
+      <AnimatedBox style={style} sx={{position: 'absolute'}}>
+        <Box sx={{textAlign: 'center'}}>
+          <Box sx={{fontSize: 6}}>pick a coffee</Box>
+          <Box sx={{my: 4}}>
+            <Dropdown
+              onChange={selection => console.log({selection})}
+              onCreateNew={toggleModal}
+              name="coffee"
+              options={coffees.map(coffee => ({text: coffee.name, value: coffee.id}))}
+            />
+          </Box>
+          <Button type="button" onClick={() => setSection(2)}>
+            Let's go!
+          </Button>
         </Box>
-        <Button type="button" onClick={() => setSection(2)}>
-          Let's go!
-        </Button>
-      </Box>
-    </AnimatedBox>
+      </AnimatedBox>
+    </>
   )
 }
 
