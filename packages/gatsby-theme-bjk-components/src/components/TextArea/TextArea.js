@@ -54,9 +54,7 @@ const TextArea = React.memo(({formik, ...props}) => {
   }
   return formik ? (
     <Field
-      component={({field, form}) => (
-        <TextAreaInner {...props} {...field} {...form} onChange={e => withFormikOnChange({props, field, e})} />
-      )}
+      as={field => <TextAreaInner {...props} {...field} onChange={e => withFormikOnChange({props, field, e})} />}
       {...props}
     />
   ) : (

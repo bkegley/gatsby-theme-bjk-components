@@ -54,9 +54,7 @@ const TextInput = React.memo(({formik, ...props}) => {
   }
   return formik ? (
     <Field
-      component={({field, form}) => (
-        <TextInputInner {...props} {...field} {...form} onChange={e => withFormikOnChange({props, field, e})} />
-      )}
+      as={field => <TextInputInner {...props} {...field} onChange={e => withFormikOnChange({props, field, e})} />}
       {...props}
     />
   ) : (
