@@ -10,25 +10,26 @@ const Header = () => {
   const {time, isRunning} = useTimer()
   const [showDrawer, setShowDrawer] = React.useState(false)
   const toggleDrawer = () => setShowDrawer(old => !old)
+  const isHome = window.location.pathname === '/'
   return (
     <Box sx={{width: '100%'}}>
       <Container sx={{maxWidth: 1152, width: '100%'}}>
         <Flex sx={{alignItems: 'center'}}>
           <Box sx={{flex: 1}}>
             <span sx={{fontSize: 8, color: 'primary', fontWeight: 'heading'}}>
-              {isRunning ? (
-                new Date(time.totalTime * 1000).toISOString().substr(14, 5)
-              ) : (
+              {isHome || !isRunning ? (
                 <Link to="/" sx={{textDecoration: 'none', color: 'primary'}}>
                   brewd
                 </Link>
+              ) : (
+                new Date(time.totalTime * 1000).toISOString().substr(14, 5)
               )}
             </span>
           </Box>
           <Flex sx={{display: ['none', 'none', 'flex', 'flex']}}>
             <Box sx={{mr: 3}}>
               <Link to="/" sx={{textDecoration: 'none', color: 'primary'}}>
-                Start
+                Home
               </Link>
             </Box>
             <Box sx={{mr: 3}}>
@@ -50,7 +51,7 @@ const Header = () => {
               <Flex sx={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '80vh'}}>
                 <Box sx={{my: 3}}>
                   <Link to="/" sx={{textDecoration: 'none', color: 'primary'}}>
-                    Start
+                    Home
                   </Link>
                 </Box>
                 <Box sx={{my: 3}}>
