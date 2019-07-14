@@ -5,16 +5,19 @@ export const TimerContext = React.createContext({})
 const UPDATE_TIME = 'UPDATE_TIME'
 const TOGGLE_TIMER = 'TOGGLE_TIMER'
 const RESET_TIMER = 'RESET_TIMER'
-const ADD_TIMER_LAP = 'ADD_TIMER_LAP'
+const ADD_TIMER_SPLIT = 'ADD_TIMER_SPLIT'
+const START_SESSION = 'START_SESSION'
+const RESET_SESSION = 'RESET_SESSION'
 
 const initialState = {
   totalTime: 0,
-  laps: [
+  splits: [
     {
       startTime: 0,
     },
   ],
   isRunning: false,
+  session: null,
 }
 
 const timerReducer = (state, action) => {
@@ -25,34 +28,63 @@ const timerReducer = (state, action) => {
         totalTime: action.totalTime,
       }
     }
+
     case TOGGLE_TIMER: {
       return {
         ...state,
         isRunning: !state.isRunning,
       }
     }
+
     case RESET_TIMER: {
-      return initialState
+      return {
+        ...state,
+        totalTime: initialState.totalTime,
+        splits: initialState.splits,
+        isRunning: initialState.isRunning,
+      }
     }
-    case ADD_TIMER_LAP: {
+
+    case ADD_TIMER_SPLIT: {
       if (!state.isRunning) {
         return state
       }
       return {
         ...state,
-        laps: state.laps
-          .map((lap, index) => {
-            // add end time to last lap
-            if (index === state.laps.length - 1) {
+        splits: state.splits
+          .map((split, index) => {
+            // add end time to last split
+            if (index === state.splits.length - 1) {
               return {
-                ...lap,
+                ...split,
                 endTime: state.totalTime,
               }
             }
-            return lap
+            return split
           })
           .concat({startTime: state.totalTime}),
       }
+    }
+
+    case START_SESSION: {
+      return {
+        ...state,
+        session: {
+          id: action.id,
+          coffee: action.coffee,
+        },
+      }
+    }
+
+    case RESET_SESSION: {
+      return {
+        ...state,
+        session: initialState.session,
+      }
+    }
+
+    default: {
+      throw new Error('Please provide a valid action type')
     }
   }
 }
@@ -72,17 +104,22 @@ export const TimerProvider = ({children}) => {
 
   const toggleTimer = () => dispatch({type: TOGGLE_TIMER})
   const resetTimer = () => dispatch({type: RESET_TIMER})
-  const addLap = () => dispatch({type: ADD_TIMER_LAP})
+  const addSplit = () => dispatch({type: ADD_TIMER_SPLIT})
+  const startSession = ({id, coffee}) => dispatch({type: START_SESSION, id, coffee})
+  const resetSession = () => dispatch({type: RESET_SESSION})
 
   const value = React.useMemo(
     () => ({
       toggleTimer,
       resetTimer,
-      addLap,
+      addSplit,
+      startSession,
+      resetSession,
+      session: state.session,
       isRunning: state.isRunning,
-      time: {totalTime: state.totalTime, laps: state.laps},
+      time: {totalTime: state.totalTime, splits: state.splits},
     }),
-    [state.totalTime, state.isRunning],
+    [state.totalTime, state.isRunning, state.session],
   )
   return <TimerContext.Provider value={value}>{children}</TimerContext.Provider>
 }
