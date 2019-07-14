@@ -10,7 +10,7 @@ const Header = () => {
   const {time, isRunning} = useTimer()
   const [showDrawer, setShowDrawer] = React.useState(false)
   const toggleDrawer = () => setShowDrawer(old => !old)
-  const isHome = window.location.pathname === '/'
+  const isHome = typeof window !== 'undefined' ? window.location.pathname === '/' : false
   return (
     <Box sx={{width: '100%'}}>
       <Container sx={{maxWidth: 1152, width: '100%'}}>
