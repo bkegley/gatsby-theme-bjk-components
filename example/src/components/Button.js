@@ -1,11 +1,11 @@
 /** @jsx jsx */
 import {jsx} from 'theme-ui'
 
-const getVariantStyles = variant => {
-  switch (variant) {
+const getVariantStyles = props => {
+  switch (props.variant) {
     case 'primary': {
       return {
-        bg: 'primary',
+        bg: props.disabled ? 'muted' : 'primary',
         color: 'white',
       }
     }
@@ -15,12 +15,12 @@ const getVariantStyles = variant => {
         borderWidth: 1,
         borderStyle: 'solid',
         color: 'primary',
-        bg: 'white',
+        bg: props.disabled ? 'lightgrey' : 'white',
       }
     }
     default: {
       return {
-        bg: 'primary',
+        bg: props.disabled ? 'muted' : 'primary',
         color: 'white',
       }
     }
@@ -41,7 +41,7 @@ const Button = ({children, ...props}) => {
             boxShadow: 'default',
           },
         },
-        getVariantStyles(props.variant),
+        getVariantStyles(props),
       )}
       {...props}
     >
