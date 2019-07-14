@@ -180,7 +180,7 @@ const DropdownInner = ({
       itemToString={item => (item ? item.text : '')}
       initialSelectedItem={
         initialSelectedItem
-          ? typeof initialSelectedItem === 'string'
+          ? typeof initialSelectedItem === 'string' || typeof initialSelectedItem === 'number'
             ? options.find(option => option.value === initialSelectedItem)
             : initialSelectedItem
           : field && field.value
@@ -262,7 +262,7 @@ DropdownInner.propTypes = {
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }),
   ),
-  initialSelectedItem: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  initialSelectedItem: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number]),
   onChange: PropTypes.func,
   onCreateNew: PropTypes.func,
   placeholder: PropTypes.string,
@@ -288,7 +288,7 @@ Dropdown.propTypes = {
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }),
   ),
-  initialSelectedItem: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  initialSelectedItem: PropTypes.oneOfType([PropTypes.string, PropTypes.object, PropTypes.number]),
   onChange: PropTypes.func,
   onCreateNew: PropTypes.func,
   placeholder: PropTypes.string,
