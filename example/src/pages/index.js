@@ -18,6 +18,11 @@ const BrewButton = () => {
 }
 
 const SectionOne = ({style, setSection}) => {
+  const {isRunning} = useTimer()
+
+  React.useEffect(() => {
+    if (isRunning) setSection(2)
+  }, [])
   return (
     <AnimatedBox style={style} sx={{position: 'absolute'}}>
       <Box sx={{textAlign: 'center'}}>
@@ -56,12 +61,10 @@ const SectionThree = ({style, setSection}) => {
   return (
     <AnimatedBox style={style} sx={{position: 'absolute'}}>
       <Box sx={{textAlign: 'center'}}>
-        <Box sx={{fontSize: 6}}>hey </Box>
-        <Box sx={{fontSize: 8, color: 'primary'}}>brewd</Box>
-        <Box sx={{mt: 5, mb: 3}}>Let's get started</Box>
-        <Button type="button" onClick={() => setSection(1)}>
+        <Box sx={{fontSize: 8, color: 'primary', mb: 5}}>ready?</Box>
+        <BrewButton type="button" onClick={() => setSection(1)}>
           Let's go!
-        </Button>
+        </BrewButton>
       </Box>
     </AnimatedBox>
   )
